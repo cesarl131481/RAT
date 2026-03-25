@@ -17,7 +17,7 @@
 const DB_CONFIG = {
   // URL raw de tu CSV en GitHub
   // Formato: https://raw.githubusercontent.com/{usuario}/{repo}/{rama}/{ruta}
-  csvUrl: 'https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/data/rat_db.csv',
+  csvUrl: 'https://raw.githubusercontent.com/cesarl131481/RAT/main/data/rat_db.csv',
 
   // Número de preguntas a seleccionar por sesión
   numPreguntas: 5,
