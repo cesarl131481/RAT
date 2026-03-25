@@ -431,29 +431,18 @@ function mostrarResultados() {
   }, 300);
 
   // Mensaje de resultado
-  const mensajes = [
-    { min: 5, titulo: '¡Excepcional!',  sub: 'Pensamiento divergente sobresaliente.' },
-    { min: 4, titulo: '¡Muy bien!',     sub: 'Excelente capacidad de asociación.' },
-    { min: 3, titulo: 'Bien hecho',     sub: 'Buen resultado. ¡Sigue practicando!' },
-    { min: 2, titulo: 'Puedes mejorar', sub: 'Continúa entrenando tu creatividad.' },
-    { min: 0, titulo: 'Sigue intentando', sub: 'Cada intento fortalece tu mente.' },
-  ];
-
-  const m = mensajes.find(x => correctas >= x.min);
-  DOM.resultsTitle.textContent   = m.titulo;
-  DOM.resultsSubtitle.textContent = `${correctas} de ${total} correctas — ${m.sub}`;
+  DOM.resultsTitle.textContent = 'GRACIAS POR PARTICIPAR';
+  DOM.resultsSubtitle.textContent = '';
 
   // Tabla de respuestas
   DOM.resultsTbody.innerHTML = '';
   Estado.respuestas.forEach((r, i) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td class="td-words">${r.palabra1} · ${r.palabra2} · ${r.palabra3}</td>
-      <td class="td-user ${r.correcto ? 'correct' : 'incorrect'}">${r.respuestaUsuario}</td>
-      <td class="td-correct">${r.respuestaCorrecta}</td>
-      <td><span class="td-badge ${r.correcto ? 'ok' : 'no'}">${r.correcto ? '✓' : '✗'}</span></td>
-    `;
+     <td>${i + 1}</td>
+     <td class="td-words">${r.palabra1} · ${r.palabra2} · ${r.palabra3}</td>
+     <td class="td-user correct">${r.respuestaUsuario}</td>
+   `;
     DOM.resultsTbody.appendChild(tr);
   });
 
