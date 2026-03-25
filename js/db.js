@@ -48,6 +48,8 @@ let _cachedPreguntas = null;
    Ignora líneas vacías y la cabecera
 ───────────────────────────────────────── */
 function parsearCSV(texto) {
+   texto = texto.replace(/^\uFEFF/, '');
+   
   const lineas = texto
     .split('\n')
     .map(l => l.trim())
