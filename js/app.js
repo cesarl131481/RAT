@@ -453,7 +453,7 @@ function mostrarResultados() {
 }
 
 function iniciarResultados() {
-  DOM.btnSave.addEventListener('click', async () => {
+   DOM.btnSave.addEventListener('click', async () => {
     DOM.btnSave.disabled     = true;
     DOM.btnSave.classList.add('loading');
     DOM.saveStatus.textContent = 'Guardando...';
