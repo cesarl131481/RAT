@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>RAT · Test de Asociación Remota</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- CSS externos -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/screens.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+  <!-- ░░ PARTÍCULAS DE FONDO ░░ -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════
+       PANTALLA 1 — BIENVENIDA / LOGIN
+  ═══════════════════════════════════════ -->
+  <section id="screen-login" class="screen active">
+    <div class="login-layout">
+
+      <div class="login-brand">
+        <div class="brand-badge">Psicología Cognitiva</div>
+        <h1 class="brand-title">RAT</h1>
+        <p class="brand-sub">Remote Associates Test</p>
+        <p class="brand-desc">
+          Evalúa tu pensamiento divergente.<br/>
+          Encuentra la conexión oculta entre palabras.
+        </p>
+      </div>
+
+      <div class="login-card">
+        <h2 class="card-title">Identifícate para comenzar</h2>
+
+        <div class="field-group">
+          <label class="field-label" for="input-name">Nombre completo</label>
+          <input
+            id="input-name"
+            class="field-input"
+            type="text"
+            placeholder="Ej: María García López"
+            autocomplete="name"
+            maxlength="80"
+          />
+          <span class="field-error" id="err-name"></span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="input-id">Código / ID universitario</label>
+          <input
+            id="input-id"
+            class="field-input"
+            type="text"
+            placeholder="Ej: 20241234"
+            autocomplete="off"
+            maxlength="20"
+          />
+          <span class="field-error" id="err-id"></span>
+        </div>
+
+        <button id="btn-login" class="btn-primary" type="button">
+          <span class="btn-text">Comenzar prueba</span>
+          <span class="btn-arrow">→</span>
+        </button>
+
+        <p class="login-disclaimer">
+          Tus datos se guardan de forma anónima con fines académicos.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       PANTALLA 2 — INSTRUCCIONES
+  ═══════════════════════════════════════ -->
+  <section id="screen-instructions" class="screen">
+    <div class="instructions-layout">
+
+      <div class="inst-header">
+        <span class="inst-tag">¿Cómo funciona?</span>
+        <h2 class="inst-title">Instrucciones</h2>
+      </div>
+
+      <div class="inst-steps">
+        <div class="inst-step" style="--i:0">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h3>Tres palabras estímulo</h3>
+            <p>Se te presentarán <strong>3 palabras</strong> aparentemente sin relación entre sí.</p>
+          </div>
+        </div>
+        <div class="inst-step" style="--i:1">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h3>Encuentra el nexo</h3>
+            <p>Escribe <strong>una sola palabra</strong> que se pueda asociar con las tres al mismo tiempo.</p>
+          </div>
+        </div>
+        <div class="inst-step" style="--i:2">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h3>Tiempo limitado</h3>
+            <p>Tienes <strong id="inst-time">60 segundos</strong> por pregunta. ¡Confía en tu intuición!</p>
+          </div>
+        </div>
+        <div class="inst-step" style="--i:3">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h3>5 preguntas en total</h3>
+            <p>La prueba consta de <strong>5 retos</strong> seleccionados aleatoriamente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="inst-example">
+        <span class="example-label">Ejemplo</span>
+        <div class="example-words">
+          <span class="ex-word">PIÑA</span>
+          <span class="ex-sep">+</span>
+          <span class="ex-word">MANZANA</span>
+          <span class="ex-sep">+</span>
+          <span class="ex-word">NARANJA</span>
+          <span class="ex-eq">→</span>
+          <span class="ex-answer">FRUTA</span>
+        </div>
+      </div>
+
+      <button id="btn-start" class="btn-primary" type="button">
+        <span class="btn-text">¡Empezar!</span>
+        <span class="btn-arrow">→</span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       PANTALLA 3 — PREGUNTA
+  ═══════════════════════════════════════ -->
+  <section id="screen-question" class="screen">
+    <div class="question-layout">
+
+      <!-- Header con progreso y timer -->
+      <div class="q-header">
+        <div class="q-progress-wrap">
+          <span class="q-progress-label">Pregunta <span id="q-current">1</span> de <span id="q-total">5</span></span>
+          <div class="q-progress-bar">
+            <div class="q-progress-fill" id="q-progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="q-timer" id="q-timer">
+          <svg class="timer-ring" viewBox="0 0 48 48">
+            <circle class="ring-bg" cx="24" cy="24" r="20"/>
+            <circle class="ring-fill" id="ring-fill" cx="24" cy="24" r="20"/>
+          </svg>
+          <span class="timer-num" id="timer-num">60</span>
+        </div>
+      </div>
+
+      <!-- Palabras estímulo -->
+      <div class="q-words-area">
+        <p class="q-instruction">¿Qué palabra une a las tres?</p>
+        <div class="q-words" id="q-words">
+          <div class="word-card" id="wc-0" style="--d:0.1s">
+            <span class="word-text" id="word-0">—</span>
+          </div>
+          <div class="word-connector">✦</div>
+          <div class="word-card" id="wc-1" style="--d:0.25s">
+            <span class="word-text" id="word-1">—</span>
+          </div>
+          <div class="word-connector">✦</div>
+          <div class="word-card" id="wc-2" style="--d:0.4s">
+            <span class="word-text" id="word-2">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input de respuesta -->
+      <div class="q-answer-area">
+        <div class="answer-field-wrap">
+          <input
+            id="answer-input"
+            class="answer-input"
+            type="text"
+            placeholder="Escribe tu respuesta..."
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="characters"
+            spellcheck="false"
+            maxlength="40"
+          />
+          <div class="answer-underline"></div>
+        </div>
+
+        <button id="btn-next" class="btn-primary" type="button">
+          <span class="btn-text" id="btn-next-text">Siguiente</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Feedback (correcto/incorrecto) -->
+      <div class="q-feedback hidden" id="q-feedback">
+        <div class="feedback-inner" id="feedback-inner">
+          <span class="feedback-icon" id="feedback-icon">✓</span>
+          <span class="feedback-msg" id="feedback-msg">¡Correcto!</span>
+          <span class="feedback-correct" id="feedback-correct"></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       PANTALLA 4 — RESULTADOS
+  ═══════════════════════════════════════ -->
+  <section id="screen-results" class="screen">
+    <div class="results-layout">
+
+      <div class="results-header">
+        <div class="results-score-wrap">
+          <svg class="score-ring" viewBox="0 0 120 120">
+            <circle class="sr-bg" cx="60" cy="60" r="50"/>
+            <circle class="sr-fill" id="sr-fill" cx="60" cy="60" r="50"/>
+          </svg>
+          <div class="score-center">
+            <span class="score-num" id="score-num">0</span>
+            <span class="score-of">/5</span>
+          </div>
+        </div>
+        <div class="results-title-wrap">
+          <h2 class="results-title" id="results-title">Resultado</h2>
+          <p class="results-subtitle" id="results-subtitle">Prueba completada</p>
+        </div>
+      </div>
+
+      <!-- Tabla de respuestas -->
+      <div class="results-table-wrap">
+        <table class="results-table" id="results-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Palabras</th>
+              <th>Tu respuesta</th>
+              <th>Correcta</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="results-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="results-actions">
+        <button id="btn-save" class="btn-primary" type="button">
+          <span class="btn-text">Guardar respuestas</span>
+          <span class="btn-arrow">↑</span>
+        </button>
+        <button id="btn-retry" class="btn-secondary" type="button">
+          Nueva prueba
+        </button>
+      </div>
+
+      <div class="save-status" id="save-status"></div>
+
+    </div>
+  </section>
+
+  <!-- ░░ LOADING OVERLAY ░░ -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-msg" id="loading-msg">Cargando preguntas...</p>
+  </div>
+
+  <!-- JS externos (orden importa) -->
+  <script src="js/db.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+/* ═══════════════════════════════════════════════════════════
+   animations.css  —  RAT Test App
+   Keyframes · Micro-interacciones · Efectos visuales
+═══════════════════════════════════════════════════════════ */
+
+/* ─── KEYFRAMES BASE ─── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-dim {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.2); }
+}
+
+@keyframes feedback-pop {
+  0%   { transform: scale(0.7) translateY(20px); opacity: 0; }
+  60%  { transform: scale(1.05) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%      { transform: translateX(-8px); }
+  45%      { transform: translateX(8px); }
+  75%      { transform: translateX(-4px); }
+}
+
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(0); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,229,255,0.2); }
+  50%       { box-shadow: 0 0 40px rgba(0,229,255,0.45), 0 0 80px rgba(0,229,255,0.1); }
+}
+
+@keyframes border-flow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes count-down-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slide-up-fade {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes result-row-in {
+  from { opacity: 0; transform: translateX(-15px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes score-ring-reveal {
+  from { stroke-dashoffset: 314.16; }
+}
+
+/* ─── APLICACIONES ESPECÍFICAS ─── */
+
+/* Campo input — shake al error */
+.field-input.shake {
+  animation: shake 0.4s var(--ease-out-expo);
+}
+
+/* Timer — pulso en peligro */
+.q-timer.danger-pulse {
+  animation: count-down-pulse 1s ease-in-out infinite;
+}
+
+/* Card de login — glow pulse */
+.login-card.ready {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Filas de resultados — entrada escalonada */
+.results-table tbody tr {
+  animation: result-row-in 0.4s var(--ease-out-expo) both;
+}
+
+/* Generar delays para las filas de resultados */
+.results-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.results-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.results-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.results-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.results-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+
+/* Instrucciones — slide up al activarse */
+.instructions-layout {
+  animation: slide-up-fade 0.6s var(--ease-out-expo) both;
+}
+
+/* Resultados layout */
+.results-layout > * {
+  animation: slide-up-fade 0.5s var(--ease-out-expo) both;
+}
+
+.results-layout > *:nth-child(1) { animation-delay: 0.05s; }
+.results-layout > *:nth-child(2) { animation-delay: 0.15s; }
+.results-layout > *:nth-child(3) { animation-delay: 0.25s; }
+.results-layout > *:nth-child(4) { animation-delay: 0.35s; }
+.results-layout > *:nth-child(5) { animation-delay: 0.45s; }
+
+/* ─── PARTÍCULAS FLOTANTES ─── */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  animation: float-up 3s ease-out forwards;
+}
+
+/* ─── BORDE ANIMADO EN BTN-PRIMARY ACTIVO ─── */
+.btn-primary.loading {
+  background: linear-gradient(270deg, var(--clr-cyan), var(--clr-lime), var(--clr-amber), var(--clr-cyan));
+  background-size: 300% 300%;
+  animation: border-flow 2s linear infinite;
+  pointer-events: none;
+}
+
+/* ─── WORD CARDS — HOVER GLOW ─── */
+.word-card:hover .word-text {
+  text-shadow: 0 0 20px rgba(0,229,255,0.5);
+  color: var(--clr-cyan);
+  transition: color var(--t-fast), text-shadow var(--t-fast);
+}
+
+/* ─── REDUCIR MOVIMIENTO (accesibilidad) ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
