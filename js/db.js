@@ -23,7 +23,7 @@ const DB_CONFIG = {
   numPreguntas: 5,
 
   // Separador del CSV (coma por defecto)
-  separador: ',',
+  separador: ';',
 
   // Índices de columnas (base 0):
   // 0: id | 1: palabra1 | 2: palabra2 | 3: palabra3 | 4: respuesta_correcta
