@@ -349,21 +349,16 @@ function manejarRespuesta(porTiempo = false) {
   // Deshabilitar input
   DOM.answerInput.disabled = true;
 
-  // Mostrar feedback
-  mostrarFeedback(correcto, respuestaCorrecta, porTiempo);
+  // Avanzar inmediatamente (sin mostrar correcto/incorrecto)
+   const siguiente = Estado.preguntaActual + 1;
 
-  // Avanzar después del feedback
-  setTimeout(() => {
-    ocultarFeedback();
-    const siguiente = Estado.preguntaActual + 1;
-    if (siguiente < CONFIG.totalPreguntas) {
-      Estado.preguntaActual = siguiente;
-      cargarPregunta(siguiente);
-    } else {
-      // Fin de la prueba
-      mostrarResultados();
-    }
-  }, CONFIG.feedbackDuration);
+   if (siguiente < CONFIG.totalPreguntas) {
+     Estado.preguntaActual = siguiente;
+     cargarPregunta(siguiente);
+   } else {
+     // Fin de la prueba
+     mostrarResultados();
+   }
 }
 
 function mostrarFeedback(correcto, respuestaCorrecta, porTiempo) {
